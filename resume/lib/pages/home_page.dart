@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resume/layout/layout_Wrapper.dart';
 import 'package:resume/sections/about_Section.dart';
+import 'package:resume/sections/about_Video.dart';
 import 'package:resume/sections/education_Section.dart';
 import 'package:resume/sections/experience_Section.dart';
 import 'package:resume/sections/projects_Section.dart';
@@ -24,7 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   final _educationKey = GlobalKey();
   final _skillsKey = GlobalKey();
   final _projectsKey = GlobalKey();
-
+  final _aboutVideo = GlobalKey();
   // Helper to scroll to widget by key
   void scrollToSection(GlobalKey key) {
     final context = key.currentContext;
@@ -49,7 +50,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resume App with Theme Toggle'),
+        title: const Text('Resume'),
         actions: [
           IconButton(
             icon: Icon(
@@ -63,30 +64,29 @@ class _HomePageState extends ConsumerState<HomePage> {
         sidebar: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            SectionContainer(
-              key: _aboutKey,
-              title: 'About',
-              child: const AboutSection(),
+            TextButton(
+              onPressed: () => scrollToSection(_aboutKey),
+              child: const Text('About'),
             ),
-            SectionContainer(
-              key: _experienceKey,
-              title: 'Experience',
-              child: const ExperienceSection(),
+            TextButton(
+              onPressed: () => scrollToSection(_aboutVideo),
+              child: const Text('Projects'),
             ),
-            SectionContainer(
-              key: _educationKey,
-              title: 'Education',
-              child: const EducationSection(),
+            TextButton(
+              onPressed: () => scrollToSection(_experienceKey),
+              child: const Text('Experience'),
             ),
-            SectionContainer(
-              key: _skillsKey,
-              title: 'Skills',
-              child: const SkillsSection(),
+            TextButton(
+              onPressed: () => scrollToSection(_educationKey),
+              child: const Text('Education'),
             ),
-            SectionContainer(
-              key: _projectsKey,
-              title: 'Projects',
-              child: const ProjectsSection(),
+            TextButton(
+              onPressed: () => scrollToSection(_skillsKey),
+              child: const Text('Skills'),
+            ),
+            TextButton(
+              onPressed: () => scrollToSection(_projectsKey),
+              child: const Text('Projects'),
             ),
           ],
         ),
@@ -100,31 +100,39 @@ class _HomePageState extends ConsumerState<HomePage> {
               SectionContainer(
                 key: _aboutKey,
                 title: 'About',
-                child: const Text('About Section Content...'),
+                child: const AboutSection(),
               ),
-              const SizedBox(height: 20),
+              SectionContainer(
+                key: _aboutVideo,
+                title: 'Intro',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SizedBox(height: 40, width: 40),
+                    AboutVideo(),
+                  ],
+                ),
+              ),
+
               SectionContainer(
                 key: _experienceKey,
                 title: 'Experience',
-                child: const Text('Experience Section Content...'),
+                child: const ExperienceSection(),
               ),
-              const SizedBox(height: 20),
               SectionContainer(
                 key: _educationKey,
                 title: 'Education',
-                child: const Text('Education Section Content...'),
+                child: const EducationSection(),
               ),
-              const SizedBox(height: 20),
               SectionContainer(
                 key: _skillsKey,
                 title: 'Skills',
-                child: const Text('Skills Section Content...'),
+                child: const SkillsSection(),
               ),
-              const SizedBox(height: 20),
               SectionContainer(
                 key: _projectsKey,
                 title: 'Projects',
-                child: const Text('Projects Section Content...'),
+                child: const ProjectsSection(),
               ),
             ],
           ),

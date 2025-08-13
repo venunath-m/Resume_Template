@@ -1,31 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class AboutSection extends StatefulWidget {
+class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
-
-  @override
-  State<AboutSection> createState() => _AboutSectionState();
-}
-
-class _AboutSectionState extends State<AboutSection> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    const videoUrl = 'https://youtube.com/shorts/fTBcG2gsZEQ?feature=share';
-    _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +25,6 @@ class _AboutSectionState extends State<AboutSection> {
         Text(
           'Highly skilled and motivated Angular and ASP.NET Core developer with 3 years of experience in designing, developing, and deploying robust web applications. Proficient in Flutter and Firebase, with a proven track record of creating efficient, scalable, and maintainable solutions while adhering to best coding practices and software development methodologies. Adept at collaborating with cross-functional teams to deliver high-quality software products on schedule.',
           style: theme.textTheme.bodyMedium,
-        ),
-        const SizedBox(height: 20),
-        YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-          progressIndicatorColor: theme.colorScheme.primary,
-          onReady: () {
-            // Optional callback
-          },
         ),
       ],
     );

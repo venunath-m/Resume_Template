@@ -113,7 +113,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
               "C#, ASP.NET, Microsoft SQL Server, Angular.js, (.NET Core, Angular)",
           role: "Developer (Team Size: 8)",
           details: [
-            "Developed and enhanced modules for supplier chain management, including inventory tracking, sales order processing, and asset management.",
+            "Worked With the team to Develop and enhanced modules for supplier chain management, including inventory tracking, sales order processing, and asset management.",
             "Implemented robust data models and database interactions using Microsoft SQL Server.",
             "Designed and developed user interfaces with Angular.js and later migrated/updated components using Angular and .NET Core.",
             "Ensured efficient and secure data handling for critical business operations.",
@@ -127,7 +127,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           skills: "C#, ASP.NET, Microsoft SQL Server, Angular.js",
           role: "Developer (Team Size: 8)",
           details: [
-            "Developed and maintained integration modules to facilitate seamless data exchange between suppliers and buyers.",
+            "Worked With the team to Develop and maintained integration modules to facilitate seamless data exchange between suppliers and buyers.",
             "Implemented data synchronization logic to ensure consistency and accuracy across different systems.",
             "Utilized C# and ASP.NET for backend logic and Microsoft SQL Server for data storage.",
             "Collaborated with external teams to define integration points and ensure successful data flow.",
