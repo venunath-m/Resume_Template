@@ -15,7 +15,7 @@ This Flutter web project is a fully responsive resume template showcasing my ski
 
 ## 📂 GitHub Template
 If you’re interested in using this free, customizable template for your own projects, you can find it here:  
-👉 [GitHub – Resume Template](https://github.com/yourusername/resume-template)
+👉 [GitHub – Resume Template](https://github.com/venunath-m/Resume_Template.git)
 
 ---
 
