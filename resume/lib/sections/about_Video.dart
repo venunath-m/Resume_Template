@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class AboutVideo extends StatefulWidget {
   const AboutVideo({super.key});
@@ -14,35 +14,40 @@ class _AboutVideoState extends State<AboutVideo> {
   @override
   void initState() {
     super.initState();
-    const videoUrl = 'https://youtube.com/shorts/fTBcG2gsZEQ?feature=share';
-    _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(videoUrl)!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: 'fTBcG2gsZEQ',
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        showControls: true,
+        showFullscreenButton: true,
+
         mute: false,
-        controlsVisibleAtStart: true,
-        enableCaption: true,
       ),
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return SizedBox(
-      width: double.infinity,
-      height: 200,
-      child: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: theme.colorScheme.primary,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 200,
+          child: YoutubePlayerScaffold(
+            controller: _controller,
+            aspectRatio: 16 / 9,
+            builder: (context, player) => player,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text('Intro'),
+      ],
     );
   }
 }

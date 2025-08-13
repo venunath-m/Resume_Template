@@ -47,10 +47,107 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeNotifierProvider);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final bool isMobile = screenWidth < 600; // adjust threshold as needed
+
+    final sidebarContent = ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        TextButton(
+          onPressed: () => scrollToSection(_aboutKey),
+          child: Text(
+            'About',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => scrollToSection(_aboutVideo),
+          child: Text(
+            'Intro',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => scrollToSection(_experienceKey),
+          child: Text(
+            'Experience',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => scrollToSection(_educationKey),
+          child: Text(
+            'Education',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => scrollToSection(_skillsKey),
+          child: Text(
+            'Skills',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => scrollToSection(_projectsKey),
+          child: Text(
+            'Projects',
+            style: TextStyle(
+              fontWeight: FontWeight.bold, // Makes text bold
+              fontSize: 16, // Slightly bigger font size
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Use theme primary color or any color you want
+            ),
+          ),
+        ),
+      ],
+    );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resume'),
+        backgroundColor: Colors.teal.shade700,
+        title: Text(
+          'Resume',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Makes text bold
+            fontSize: 24, // Slightly bigger font size
+            color: Theme.of(context)
+                .colorScheme
+                .primary, // Use theme primary color or any color you want
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(
@@ -59,85 +156,80 @@ class _HomePageState extends ConsumerState<HomePage> {
             onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
           ),
         ],
+        // Show menu icon on mobile to open drawer
+        leading: isMobile
+            ? Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
+              )
+            : null,
       ),
-      body: LayoutWrapper(
-        sidebar: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            TextButton(
-              onPressed: () => scrollToSection(_aboutKey),
-              child: const Text('About'),
+      drawer: isMobile
+          ? Drawer(child: sidebarContent, backgroundColor: Colors.teal.shade700)
+          : null,
+      body: isMobile
+          ? // Mobile: show content full width
+            SingleChildScrollView(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(20),
+              child: _buildContentColumn(),
+            )
+          : // Desktop/tablet: show sidebar + content side by side
+            Row(
+              children: [
+                SizedBox(width: 250, child: sidebarContent),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(20),
+                    child: _buildContentColumn(),
+                  ),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () => scrollToSection(_aboutVideo),
-              child: const Text('Projects'),
-            ),
-            TextButton(
-              onPressed: () => scrollToSection(_experienceKey),
-              child: const Text('Experience'),
-            ),
-            TextButton(
-              onPressed: () => scrollToSection(_educationKey),
-              child: const Text('Education'),
-            ),
-            TextButton(
-              onPressed: () => scrollToSection(_skillsKey),
-              child: const Text('Skills'),
-            ),
-            TextButton(
-              onPressed: () => scrollToSection(_projectsKey),
-              child: const Text('Projects'),
-            ),
-          ],
+    );
+  }
+
+  Widget _buildContentColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionContainer(
+          key: _aboutKey,
+          title: 'About',
+          child: const AboutSection(),
         ),
-        content: SingleChildScrollView(
-          controller: _scrollController,
-          padding: const EdgeInsets.all(20),
+        SectionContainer(
+          key: _aboutVideo,
+          title: 'Intro',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Wrap each section with a Key widget
-              SectionContainer(
-                key: _aboutKey,
-                title: 'About',
-                child: const AboutSection(),
-              ),
-              SectionContainer(
-                key: _aboutVideo,
-                title: 'Intro',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SizedBox(height: 40, width: 40),
-                    AboutVideo(),
-                  ],
-                ),
-              ),
-
-              SectionContainer(
-                key: _experienceKey,
-                title: 'Experience',
-                child: const ExperienceSection(),
-              ),
-              SectionContainer(
-                key: _educationKey,
-                title: 'Education',
-                child: const EducationSection(),
-              ),
-              SectionContainer(
-                key: _skillsKey,
-                title: 'Skills',
-                child: const SkillsSection(),
-              ),
-              SectionContainer(
-                key: _projectsKey,
-                title: 'Projects',
-                child: const ProjectsSection(),
-              ),
-            ],
+            children: const [SizedBox(height: 40, width: 40), AboutVideo()],
           ),
         ),
-      ),
+        SectionContainer(
+          key: _experienceKey,
+          title: 'Experience',
+          child: const ExperienceSection(),
+        ),
+        SectionContainer(
+          key: _educationKey,
+          title: 'Education',
+          child: const EducationSection(),
+        ),
+        SectionContainer(
+          key: _skillsKey,
+          title: 'Skills',
+          child: const SkillsSection(),
+        ),
+        SectionContainer(
+          key: _projectsKey,
+          title: 'Projects',
+          child: const ProjectsSection(),
+        ),
+      ],
     );
   }
 }

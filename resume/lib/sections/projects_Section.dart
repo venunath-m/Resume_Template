@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
@@ -9,7 +9,6 @@ class ProjectsSection extends StatefulWidget {
 }
 
 class _ProjectsSectionState extends State<ProjectsSection> {
-  // YouTube controllers mapped by project
   late final YoutubePlayerController _requisitionController;
   late final YoutubePlayerController _integrationController;
   late final YoutubePlayerController _technicalSupportController;
@@ -18,33 +17,48 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   void initState() {
     super.initState();
 
-    _requisitionController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
+    _requisitionController = YoutubePlayerController.fromVideoId(
+      videoId: YoutubePlayerController.convertUrlToId(
         'https://youtu.be/QPoiqOonIro',
       )!,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        mute: false,
+        showControls: true,
+        showFullscreenButton: true,
+      ),
     );
 
-    _integrationController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
+    _integrationController = YoutubePlayerController.fromVideoId(
+      videoId: YoutubePlayerController.convertUrlToId(
         'https://youtu.be/ztXikUN8mcw',
       )!,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        mute: false,
+        showControls: true,
+        showFullscreenButton: true,
+      ),
     );
 
-    _technicalSupportController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(
+    _technicalSupportController = YoutubePlayerController.fromVideoId(
+      videoId: YoutubePlayerController.convertUrlToId(
         'https://youtu.be/DLHuyo5bVho',
       )!,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        mute: false,
+        showControls: true,
+        showFullscreenButton: true,
+      ),
     );
   }
 
   @override
   void dispose() {
-    _requisitionController.dispose();
-    _integrationController.dispose();
-    _technicalSupportController.dispose();
+    _requisitionController.close();
+    _integrationController.close();
+    _technicalSupportController.close();
     super.dispose();
   }
 
@@ -54,7 +68,6 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     required String skills,
     required String role,
     required List<String> details,
-    YoutubePlayerController? youtubeController,
   }) {
     final theme = Theme.of(context);
     return Padding(
@@ -84,70 +97,105 @@ class _ProjectsSectionState extends State<ProjectsSection> {
               ),
             ),
           ),
-          if (youtubeController != null) ...[
-            const SizedBox(height: 12),
-            YoutubePlayer(
-              controller: youtubeController,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: theme.colorScheme.primary,
-              onReady: () {
-                // Optional callback when video is ready
-              },
-            ),
-          ],
         ],
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _recentProjectVideos() {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _projectItem(
-          title: "Requisition (Developer: Scasys) | Version 1 & 2",
-          domain:
-              "Supplier Chain (Company inventory, sales, and asset management)",
-          skills:
-              "C#, ASP.NET, Microsoft SQL Server, Angular.js, (.NET Core, Angular)",
-          role: "Developer (Team Size: 8)",
-          details: [
-            "Worked With the team to Develop and enhanced modules for supplier chain management, including inventory tracking, sales order processing, and asset management.",
-            "Implemented robust data models and database interactions using Microsoft SQL Server.",
-            "Designed and developed user interfaces with Angular.js and later migrated/updated components using Angular and .NET Core.",
-            "Ensured efficient and secure data handling for critical business operations.",
-          ],
-          youtubeController: _requisitionController,
+        Text(
+          'Recent Project Videos',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        _projectItem(
-          title: "Integration (Developer: Scasys)",
-          domain:
-              "Supplier Chain (Integrating and syncing data with supplier and buyer)",
-          skills: "C#, ASP.NET, Microsoft SQL Server, Angular.js",
-          role: "Developer (Team Size: 8)",
-          details: [
-            "Worked With the team to Develop and maintained integration modules to facilitate seamless data exchange between suppliers and buyers.",
-            "Implemented data synchronization logic to ensure consistency and accuracy across different systems.",
-            "Utilized C# and ASP.NET for backend logic and Microsoft SQL Server for data storage.",
-            "Collaborated with external teams to define integration points and ensure successful data flow.",
-          ],
-          youtubeController: _integrationController,
+        const SizedBox(height: 12),
+        // List the video players
+        SizedBox(
+          height: 200,
+          child: YoutubePlayerScaffold(
+            controller: _requisitionController,
+            aspectRatio: 16 / 9,
+            builder: (context, player) => player,
+          ),
         ),
-        _projectItem(
-          title: "Technical Support Projects (DukeSoft)",
-          domain: "Finance, Pharmacy Retail, Wholesale Market",
-          skills: "Various software products",
-          role: "Technical Support Specialist",
-          details: [
-            "Ecmacs (Finance): Provided technical support and troubleshooting for a financial management software.",
-            "Pharma (Pharmacy Retail and Wholesale Market): Offered technical assistance for pharmacy retail and wholesale management software.",
-            "Smacs (Retail and Wholesale Market): Supported software solutions for general retail and wholesale operations.",
-            "Nicsol (Finance): Delivered technical support for a finance-related application.",
-          ],
-          youtubeController: _technicalSupportController,
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: YoutubePlayerScaffold(
+            controller: _integrationController,
+            aspectRatio: 16 / 9,
+            builder: (context, player) => player,
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: YoutubePlayerScaffold(
+            controller: _technicalSupportController,
+            aspectRatio: 16 / 9,
+            builder: (context, player) => player,
+          ),
         ),
       ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _projectItem(
+            title: "Requisition (Developer: Scasys) | Version 1 & 2",
+            domain:
+                "Supplier Chain (Company inventory, sales, and asset management)",
+            skills:
+                "C#, ASP.NET, Microsoft SQL Server, Angular.js, (.NET Core, Angular)",
+            role: "Developer (Team Size: 8)",
+            details: [
+              "Worked With the team to Develop and enhanced modules for supplier chain management, including inventory tracking, sales order processing, and asset management.",
+              "Implemented robust data models and database interactions using Microsoft SQL Server.",
+              "Designed and developed user interfaces with Angular.js and later migrated/updated components using Angular and .NET Core.",
+              "Ensured efficient and secure data handling for critical business operations.",
+            ],
+          ),
+          _projectItem(
+            title: "Integration (Developer: Scasys)",
+            domain:
+                "Supplier Chain (Integrating and syncing data with supplier and buyer)",
+            skills: "C#, ASP.NET, Microsoft SQL Server, Angular.js",
+            role: "Developer (Team Size: 8)",
+            details: [
+              "Worked With the team to Develop and maintained integration modules to facilitate seamless data exchange between suppliers and buyers.",
+              "Implemented data synchronization logic to ensure consistency and accuracy across different systems.",
+              "Utilized C# and ASP.NET for backend logic and Microsoft SQL Server for data storage.",
+              "Collaborated with external teams to define integration points and ensure successful data flow.",
+            ],
+          ),
+          _projectItem(
+            title: "Technical Support Projects (DukeSoft)",
+            domain: "Finance, Pharmacy Retail, Wholesale Market",
+            skills: "Various software products",
+            role: "Technical Support Specialist",
+            details: [
+              "Ecmacs (Finance): Provided technical support and troubleshooting for a financial management software.",
+              "Pharma (Pharmacy Retail and Wholesale Market): Offered technical assistance for pharmacy retail and wholesale management software.",
+              "Smacs (Retail and Wholesale Market): Supported software solutions for general retail and wholesale operations.",
+              "Nicsol (Finance): Delivered technical support for a finance-related application.",
+            ],
+          ),
+
+          const SizedBox(height: 40),
+
+          _recentProjectVideos(),
+        ],
+      ),
     );
   }
 }
