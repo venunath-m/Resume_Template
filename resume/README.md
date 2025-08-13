@@ -1,7 +1,7 @@
 # resume
 
-A new Flutter project.
-
+Venunath M
+Full Stack Developer | Freelancer & Full-time
 ## Getting Started
 
 This project is a starting point for a Flutter application.

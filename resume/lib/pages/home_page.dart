@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:resume/layout/layout_Wrapper.dart';
 import 'package:resume/sections/about_Section.dart';
 import 'package:resume/sections/about_Video.dart';
 import 'package:resume/sections/education_Section.dart';
@@ -26,6 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   final _skillsKey = GlobalKey();
   final _projectsKey = GlobalKey();
   final _aboutVideo = GlobalKey();
+
   // Helper to scroll to widget by key
   void scrollToSection(GlobalKey key) {
     final context = key.currentContext;
@@ -48,90 +48,26 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeNotifierProvider);
     final screenWidth = MediaQuery.of(context).size.width;
+    final bool isMobile = screenWidth < 800; // Adjust threshold for mobile
 
-    final bool isMobile = screenWidth < 600; // adjust threshold as needed
-
+    // Sidebar content
     final sidebarContent = ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
       children: [
-        TextButton(
-          onPressed: () => scrollToSection(_aboutKey),
-          child: Text(
-            'About',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
+        sidebarButton('About', () => scrollToSection(_aboutKey), context),
+        sidebarButton('Intro', () => scrollToSection(_aboutVideo), context),
+        sidebarButton(
+          'Experience',
+          () => scrollToSection(_experienceKey),
+          context,
         ),
-        TextButton(
-          onPressed: () => scrollToSection(_aboutVideo),
-          child: Text(
-            'Intro',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
+        sidebarButton(
+          'Education',
+          () => scrollToSection(_educationKey),
+          context,
         ),
-        TextButton(
-          onPressed: () => scrollToSection(_experienceKey),
-          child: Text(
-            'Experience',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () => scrollToSection(_educationKey),
-          child: Text(
-            'Education',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () => scrollToSection(_skillsKey),
-          child: Text(
-            'Skills',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () => scrollToSection(_projectsKey),
-          child: Text(
-            'Projects',
-            style: TextStyle(
-              fontWeight: FontWeight.bold, // Makes text bold
-              fontSize: 16, // Slightly bigger font size
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary, // Use theme primary color or any color you want
-            ),
-          ),
-        ),
+        sidebarButton('Skills', () => scrollToSection(_skillsKey), context),
+        sidebarButton('Projects', () => scrollToSection(_projectsKey), context),
       ],
     );
 
@@ -141,11 +77,9 @@ class _HomePageState extends ConsumerState<HomePage> {
         title: Text(
           'Resume',
           style: TextStyle(
-            fontWeight: FontWeight.bold, // Makes text bold
-            fontSize: 24, // Slightly bigger font size
-            color: Theme.of(context)
-                .colorScheme
-                .primary, // Use theme primary color or any color you want
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         actions: [
@@ -156,7 +90,6 @@ class _HomePageState extends ConsumerState<HomePage> {
             onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
           ),
         ],
-        // Show menu icon on mobile to open drawer
         leading: isMobile
             ? Builder(
                 builder: (context) => IconButton(
@@ -167,19 +100,24 @@ class _HomePageState extends ConsumerState<HomePage> {
             : null,
       ),
       drawer: isMobile
-          ? Drawer(child: sidebarContent, backgroundColor: Colors.teal.shade700)
+          ? Drawer(child: sidebarContent, backgroundColor: Colors.teal.shade50)
           : null,
       body: isMobile
-          ? // Mobile: show content full width
-            SingleChildScrollView(
+          ? SingleChildScrollView(
               controller: _scrollController,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               child: _buildContentColumn(),
             )
-          : // Desktop/tablet: show sidebar + content side by side
-            Row(
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 250, child: sidebarContent),
+                SizedBox(
+                  width: 250,
+                  child: Container(
+                    color: Colors.teal.shade50,
+                    child: sidebarContent,
+                  ),
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     controller: _scrollController,
@@ -192,6 +130,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
+  // Build main content
   Widget _buildContentColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +145,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           title: 'Intro',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [SizedBox(height: 40, width: 40), AboutVideo()],
+            children: const [SizedBox(height: 20), AboutVideo()],
           ),
         ),
         SectionContainer(
@@ -234,6 +173,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 }
 
+// Section container with card style
 class SectionContainer extends StatelessWidget {
   final String title;
   final Widget child;
@@ -243,18 +183,56 @@ class SectionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.teal.shade800,
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        child,
-      ],
+          const SizedBox(height: 16),
+          Card(
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(padding: const EdgeInsets.all(24), child: child),
+          ),
+        ],
+      ),
     );
   }
+}
+
+// Sidebar button with hover and ripple effect
+Widget sidebarButton(String text, VoidCallback onTap, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      hoverColor: Colors.teal.shade100.withOpacity(0.3),
+      splashColor: Colors.teal.shade200,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ),
+    ),
+  );
 }
