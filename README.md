@@ -22,6 +22,9 @@ If you’re interested in using this free, customizable template for your own pr
 ## 💸 Support / Donations
 The template is completely free to use. If you find it useful or want to support my work, donations are welcome:
 
+❤️ Support via PayPal: [Donate Here](https://www.paypal.me/nbngb)  
+🌐 Follow or reach out on LinkedIn: [Venunath M](https://www.linkedin.com/in/venunath-m/)
+
 **Google Pay:** +91 9446224036  
 
 **Bank Details:**  
