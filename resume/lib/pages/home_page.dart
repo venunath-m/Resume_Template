@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:resume/sections/EducationCertificatesSection.dart';
+import 'package:resume/sections/ExperienceCertificatesSection.dart';
 import 'package:resume/sections/about_Section.dart';
 import 'package:resume/sections/about_Video.dart';
 import 'package:resume/sections/education_Section.dart';
@@ -22,6 +24,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   final _aboutKey = GlobalKey();
   final _experienceKey = GlobalKey();
   final _educationKey = GlobalKey();
+  final _experienceCrtKey = GlobalKey();
+  final _educationCrtKey = GlobalKey();
   final _skillsKey = GlobalKey();
   final _projectsKey = GlobalKey();
   final _aboutVideo = GlobalKey();
@@ -68,6 +72,16 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         sidebarButton('Skills', () => scrollToSection(_skillsKey), context),
         sidebarButton('Projects', () => scrollToSection(_projectsKey), context),
+        sidebarButton(
+          'Education Certificates',
+          () => scrollToSection(_educationCrtKey),
+          context,
+        ),
+        sidebarButton(
+          'Experience Certificates',
+          () => scrollToSection(_experienceCrtKey),
+          context,
+        ),
       ],
     );
 
@@ -167,6 +181,16 @@ class _HomePageState extends ConsumerState<HomePage> {
           key: _projectsKey,
           title: 'Projects',
           child: const ProjectsSection(),
+        ),
+        SectionContainer(
+          key: _educationCrtKey,
+          title: 'Education Certificates ',
+          child: const EducationCertificatesSection(),
+        ),
+        SectionContainer(
+          key: _experienceCrtKey,
+          title: 'Experience Certificates ',
+          child: const ExperienceCertificatesSection(),
         ),
       ],
     );

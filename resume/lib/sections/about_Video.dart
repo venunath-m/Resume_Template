@@ -20,7 +20,6 @@ class _AboutVideoState extends State<AboutVideo> {
       params: const YoutubePlayerParams(
         showControls: true,
         showFullscreenButton: true,
-
         mute: false,
       ),
     );
@@ -34,20 +33,40 @@ class _AboutVideoState extends State<AboutVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 200,
-          child: YoutubePlayerScaffold(
-            controller: _controller,
-            aspectRatio: 16 / 9,
-            builder: (context, player) => player,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        //  Control max width for large screens (e.g., desktops)
+        double maxWidth = constraints.maxWidth > 600
+            ? 600
+            : constraints.maxWidth;
+
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //  Responsive AspectRatio instead of fixed height
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: YoutubePlayerScaffold(
+                    controller: _controller,
+                    aspectRatio: 16 / 9,
+                    builder: (context, player) => player,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Intro',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        const Text('Intro'),
-      ],
+        );
+      },
     );
   }
 }
