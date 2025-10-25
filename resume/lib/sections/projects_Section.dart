@@ -19,7 +19,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
     _requisitionController = YoutubePlayerController.fromVideoId(
       videoId: YoutubePlayerController.convertUrlToId(
-        'https://youtu.be/QPoiqOonIro',
+        'https://youtu.be/TckJ3rykjW0',
       )!,
       autoPlay: false,
       params: const YoutubePlayerParams(
@@ -31,7 +31,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
     _integrationController = YoutubePlayerController.fromVideoId(
       videoId: YoutubePlayerController.convertUrlToId(
-        'https://youtu.be/ztXikUN8mcw',
+        'https://youtu.be/IQ5pLbFMCkE',
       )!,
       autoPlay: false,
       params: const YoutubePlayerParams(
@@ -43,7 +43,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
     _technicalSupportController = YoutubePlayerController.fromVideoId(
       videoId: YoutubePlayerController.convertUrlToId(
-        'https://youtu.be/DLHuyo5bVho',
+        'https://youtu.be/4O5cLfcG7pA',
       )!,
       autoPlay: false,
       params: const YoutubePlayerParams(
@@ -221,21 +221,21 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 switch (index) {
                   case 0:
                     return videoCard(
-                      title: "Chat Bot Demo",
+                      title: "Chat Bot",
                       controller: _requisitionController,
-                      videoId: "QPoiqOonIro",
+                      videoId: "TckJ3rykjW0",
                     );
                   case 1:
                     return videoCard(
                       title: "CRM Project Demo",
                       controller: _integrationController,
-                      videoId: "ztXikUN8mcw",
+                      videoId: "IQ5pLbFMCkE",
                     );
                   default:
                     return videoCard(
                       title: "POS Application Demo",
                       controller: _technicalSupportController,
-                      videoId: "DLHuyo5bVho",
+                      videoId: "4O5cLfcG7pA",
                     );
                 }
               },

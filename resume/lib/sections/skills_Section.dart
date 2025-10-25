@@ -49,6 +49,7 @@ class SkillsSection extends StatelessWidget {
           "JavaScript",
           "TypeScript",
           "SQL",
+          "Python",
         ]),
         _skillCategory(context, "Frontend Frameworks/Libraries", [
           "Angular",
